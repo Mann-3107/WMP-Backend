@@ -5,13 +5,13 @@ const Navbar = () => {
     let navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('token');
-        navigate("/login")
+        navigate("/")
     }
     // let location = useLocation();
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-            <Link className="navbar-brand" to="/">Services</Link>
+            <Link className="navbar-brand" to="/">Mood Indigo</Link>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
@@ -26,8 +26,8 @@ const Navbar = () => {
                 </ul>
                 {!localStorage.getItem('token')?
                 <form className="d-flex" role="search">
-                    <Link to="/login" className='btn btn-primary mx-1' role='button'>CG Login</Link>
-                    <Link to="/signup" className='btn btn-primary mx-1' role='button'>Coordie Login</Link>
+                    <Link to="/cg/login" className='btn btn-primary mx-1' role='button'>CG Login</Link>
+                    <Link to="/coordie/login" className='btn btn-primary mx-1' role='button'>Coordie Login</Link>
                 </form>: <button onClick={handleLogout} className='btn btn-primary'>Logout</button>}
             </div>
         </div>

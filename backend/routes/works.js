@@ -35,7 +35,7 @@ router.post('/cg/addwork', fetchuser, [
     body('description').exists()
 ], async(req, res) => {
     try {
-        const { description, cooride } = req.body;
+        const { description, coordie } = req.body;
         // If there are errors, return Bad request and the errors
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -43,7 +43,7 @@ router.post('/cg/addwork', fetchuser, [
         }
         const new_work = new Work({
             cg: req.user.id,
-            coordie: cooride,
+            coordie: coordie,
             description: description
         })
         const saved_work = await new_work.save()
@@ -84,6 +84,16 @@ router.post('/cg/lastupdate', [
     try{
         const latestComment = await Status.find({ work: req.body.work })
         res.json(latestComment[latestComment.length - 1])
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+router.get('/coordie/allupdates', fetchuser, async(req, res) => {
+    try{
+        const comments = await Status.find({ coordie: req.user.id })
+        res.json(comments)
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");

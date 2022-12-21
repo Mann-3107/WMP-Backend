@@ -6,9 +6,9 @@ const CoordieSchema = new Schema({
         type: String,
         required: true
     },
-    cg:{
+    department:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'cg'
+        ref: 'department'
     },
     ldap:{
         type: String,
@@ -21,6 +21,10 @@ const CoordieSchema = new Schema({
     venue:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'venue'
+    },
+    portfolio: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'portfolio'
     }
 })
 

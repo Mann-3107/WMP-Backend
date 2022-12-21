@@ -8,7 +8,6 @@ const WorkState = (props) => {
     // Add work functionality
     const addWork = async ( description, coordie ) => {
         let url = `${host}/api/work/cg/addwork`;
-        console.log(localStorage.getItem('token'));
         const response = await fetch(url, {
             method: 'POST',
             headers: {

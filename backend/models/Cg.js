@@ -7,7 +7,8 @@ const CgSchema = new Schema({
         required: true
     },
     department:{
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref: 'department',
         required: true
     },
     ldap:{

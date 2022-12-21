@@ -1,19 +1,36 @@
-import React from 'react'
-import { useContext } from 'react';
+import React, {useState} from 'react'
 import { useEffect } from 'react'
-import commentContext from '../../context/comment/commentContext';
 
 const LastUpdate = ({wid}) => {
-  const cc = useContext(commentContext);
-  const {comment, getLastComment} = cc;
+  const host = "http://localhost:8000"
+  const [comments, setComments] = useState([]);
+
+    // Fetch latest comment for work
+    const getLastComment = async ( wid ) => {
+        let url = `${host}/api/work/cg/lastupdate`
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify({ work: wid })
+        })
+        const json = await response.json();
+        setComments(json)
+    }
   useEffect(() => {
     getLastComment(wid)
-  }, []);
+
+    // eslint-disable-next-line
+  }, [comments]);
   return (
     <>
-      {!comment ? <div>No Comment</div> : <>
-        {comment.work === wid ? <span>{comment.comments}</span> : <></>}
-        
+      {comments._id === undefined ? <div key={101}>No Comments</div> : <>
+        {comments.work === wid ? <div className='row'>
+          <div className="col-12" style={{wordWrap: 'normal'}}>
+          {comments.comments}
+          </div>
+          </div> : <></>}
       </>}
     </>
   )

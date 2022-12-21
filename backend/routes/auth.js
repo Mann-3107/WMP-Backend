@@ -4,6 +4,8 @@ const Coordie = require('../models/Coordie');
 const Cg = require('../models/Cg');
 const Venue = require('../models/Venue');
 const Work = require('../models/Work');
+const Portfolio = require('../models/Portfolio');
+const Department = require('../models/Department');
 const { body, validationResult} = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -41,7 +43,8 @@ router.post('/cg/createuser', [
         })
         const data = {
             user: {
-                id: user.id
+                id: user.id,
+                department: user.department
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRET);
@@ -76,7 +79,8 @@ router.post('/cg/login', [
         }
         const data = {
             user: {
-                id: user.id
+                id: user.id,
+                department: user.department
             }
         }
         const authtoken = jwt.sign(data, JWT_SECRET);
@@ -92,8 +96,7 @@ router.post('/coordie/createuser', [
     body('name').exists(),
     body('ldap').isLength({ max: 9 }),
     body('password').isLength({ min: 8 }),
-    body('cg').exists(),
-    body('venue').exists()
+    body('department').exists(),
 ], async (req, res)=>{
     // If there are errors, return Bad request and the errors
     const errors = validationResult(req);
@@ -115,8 +118,9 @@ router.post('/coordie/createuser', [
             ldap: req.body.ldap,
             password: secPass,
             name: req.body.name,
-            cg: req.body.cg,
-            venue: req.body.venue
+            department: req.body.department,
+            venue: req.body.venue,
+            portfolio: req.body.portfolio
         })
         const data = {
             cg: {
@@ -167,10 +171,21 @@ router.post('/coordie/login', [
     }
 })
 
-// ROUTE-5: Get logged-in CG details using: POST "/api/cg/" .Login Required
-router.get('/cg/getuser', fetchuser, async (req, res) => {
+// ROUTE-5a: Get logged in CG details using: GET 'api/auth/cg/getdetails. Login required
+router.get('/cg/getdetails', fetchuser, async (req, res) => {
+    try {
+        const details = await Cg.findById(req.user.id);
+        res.send(details);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Internal Server error');
+    }
+})
+
+// ROUTE-5: Get logged-in CG coordies using: POST "/api/cg/" .Login Required
+router.get('/cg/getcoordies', fetchuser, async (req, res) => {
     try{
-        const coordies = await Coordie.find({ cg: req.user.id });
+        const coordies = await Coordie.find({ department: req.user.department });
         res.send(coordies)
     } catch (error) {
         console.error(error.message);
@@ -194,6 +209,17 @@ router.get('/getvenues', async (req, res) => {
     try{        
         const venues = await Venue.find()
         res.send(venues)
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+// ROUTE-8: Fetch all venues: GET "/api/auth/getportfolios"
+router.get('/getportfolios', async (req, res) => {
+    try{        
+        const portfolios = await Portfolio.find()
+        res.send(portfolios)
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");

@@ -7,7 +7,7 @@ const CoordieState = (props) => {
 
     // Fetch All coordies
     const getCoordies = async () => {
-        let url = `${host}/api/auth/cg/getuser`;
+        let url = `${host}/api/auth/cg/getcoordies`;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -19,7 +19,7 @@ const CoordieState = (props) => {
     }
 
     return (
-        <coordieContext.Provider value={{coordies, getCoordies}}>
+        <coordieContext.Provider value={{ coordies, getCoordies}}>
             {props.children}
         </coordieContext.Provider>
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import workContext from '../context/work/workContext';
+import workContext from '../../context/work/workContext';
 
 const AddWork = () => {
     const context = useContext(workContext);
@@ -18,13 +18,7 @@ const AddWork = () => {
         <h2>Add Work</h2>
         <form action="">
             <div className="mb-3">
-                <div></div>
                 <div className="form-floating mb-3">
-                    <input type="email" readOnly className="form-control-plaintext" id="floatingEmptyPlaintextInput" placeholder="name@example.com"/>
-                    <label htmlFor="floatingEmptyPlaintextInput">Empty input</label>
-                </div>
-                <div className="form-floating mb-3">
-                    {/* {console.log(work.coordie)} */}
                     <input type="email" readOnly className="form-control-plaintext" id="floatingPlaintextInput" value="CoordieID"/>
                     <label htmlFor="floatingPlaintextInput">Coordie</label>
                 </div>
