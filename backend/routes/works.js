@@ -90,9 +90,9 @@ router.post('/cg/lastupdate', [
     }
 })
 
-router.get('/coordie/allupdates', fetchuser, async(req, res) => {
+router.post('/coordie/allupdates', async(req, res) => {
     try{
-        const comments = await Status.find({ coordie: req.user.id })
+        const comments = await Status.find({ work: req.body.work })
         res.json(comments)
     } catch (error) {
         console.error(error.message);

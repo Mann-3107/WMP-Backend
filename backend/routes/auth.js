@@ -114,6 +114,8 @@ router.post('/coordie/createuser', [
         const secPass = await bcrypt.hash(req.body.password, salt);
 
         // create a new user
+        
+        
         user = await Coordie.create({
             ldap: req.body.ldap,
             password: secPass,
@@ -220,6 +222,17 @@ router.get('/getportfolios', async (req, res) => {
     try{        
         const portfolios = await Portfolio.find()
         res.send(portfolios)
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+// ROUTE-9: Fetch all departments: GET "/api/auth/getdepartments"
+router.get('/getdepartments', async (req, res) => {
+    try{        
+        const departments = await Department.find()
+        res.send(departments)
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
