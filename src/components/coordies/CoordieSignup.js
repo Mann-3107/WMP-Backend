@@ -55,7 +55,7 @@ const CoordieSignup = () => {
         
         
         if (allotedVenue) {
-          const response = await fetch("http://localhost:8000/api/auth/coordie/signup", {
+          const response = await fetch("http://localhost:8000/api/auth/coordie/createuser", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
