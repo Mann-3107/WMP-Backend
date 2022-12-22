@@ -16,7 +16,7 @@ const Works = () => {
             navigate('/coordie/login');
         }
         // eslint-disable-next-line
-    }, []);
+    }, [works]);
   return (
     <div className='container my-3'>
         <div className="row">
